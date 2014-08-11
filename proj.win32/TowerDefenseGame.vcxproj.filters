@@ -21,16 +21,16 @@
     <ClCompile Include="..\Classes\TutorialScene.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
-    <ClCompile Include="WayPoint.cpp">
+    <ClCompile Include="..\Classes\Creep.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
-    <ClCompile Include="Creep.cpp">
+    <ClCompile Include="..\Classes\DataModel.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
-    <ClCompile Include="Wave.cpp">
+    <ClCompile Include="..\Classes\Wave.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
-    <ClCompile Include="DataModel.cpp">
+    <ClCompile Include="..\Classes\WayPoint.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
   </ItemGroup>
@@ -44,16 +44,16 @@
     <ClInclude Include="..\Classes\TutorialScene.h">
       <Filter>Classes</Filter>
     </ClInclude>
-    <ClInclude Include="WayPoint.h">
+    <ClInclude Include="..\Classes\Creep.h">
       <Filter>Classes</Filter>
     </ClInclude>
-    <ClInclude Include="Creep.h">
+    <ClInclude Include="..\Classes\DataModel.h">
       <Filter>Classes</Filter>
     </ClInclude>
-    <ClInclude Include="Wave.h">
+    <ClInclude Include="..\Classes\Wave.h">
       <Filter>Classes</Filter>
     </ClInclude>
-    <ClInclude Include="DataModel.h">
+    <ClInclude Include="..\Classes\WayPoint.h">
       <Filter>Classes</Filter>
     </ClInclude>
   </ItemGroup>

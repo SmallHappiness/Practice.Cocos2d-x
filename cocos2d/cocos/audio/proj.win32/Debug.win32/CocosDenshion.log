@@ -1,4 +1,1 @@
-﻿  MciPlayer.cpp
-  SimpleAudioEngine.cpp
-d:\git\towerdefensegame\cocos2d\cocos\2d\cclabel.h(276): warning C4244: 'return' : conversion from 'float' to 'int', possible loss of data (..\win32\SimpleAudioEngine.cpp)
-  CocosDenshion.vcxproj -> D:\Git\TowerDefenseGame\proj.win32\Debug.win32\libAudio.lib
+﻿  CocosDenshion.vcxproj -> D:\Git\TowerDefenseGame\proj.win32\Debug.win32\libAudio.lib
