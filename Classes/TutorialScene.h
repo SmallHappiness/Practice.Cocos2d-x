@@ -1,5 +1,8 @@
 #pragma once
 #include "cocos2d.h"
+#include "Creep.h"
+#include "WayPoint.h"
+#include "Wave.h"
 
 class TutorialScene : public cocos2d::Layer
 {
@@ -8,7 +11,17 @@ private:
 	cocos2d::TMXLayer *_background;
 public:
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
-    static cocos2d::Scene* createScene();
+	int currentLevel;
+	void addWayPoint();
+	void addWaves();
+	void FollowPath(Node *sender);
+	void gameLogic(float dt);
+	void addTarget();
+	virtual void update(float dt);
+	Wave* getCurrentWave();
+	Wave* getNextWave();
+
+	static cocos2d::Scene* createScene();
 
     // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
     virtual bool init();  

@@ -8,3 +8,10 @@ bool Wave::init(){
 	}
 	return true;
 }
+Wave* Wave::initWithCreep(Creep* creep, double spawnRate, int TotalCreeps){
+	this->CreepType = creep;
+	this->spawnRate = spawnRate;
+	this->totalCreeps = TotalCreeps;
+
+	return this;
+}

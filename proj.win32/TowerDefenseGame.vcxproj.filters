@@ -56,10 +56,25 @@
     <ClInclude Include="..\Classes\WayPoint.h">
       <Filter>Classes</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">
       <Filter>resource</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Resources\CloseNormal.png" />
+    <Image Include="..\Resources\CloseSelected.png" />
+    <Image Include="..\Resources\Enemy1.png" />
+    <Image Include="..\Resources\Enemy2.png" />
+    <Image Include="..\Resources\fps_images.png" />
+    <Image Include="..\Resources\HelloWorld.png" />
+    <Image Include="..\Resources\hud.png" />
+    <Image Include="..\Resources\MachineGunTurret.png" />
+    <Image Include="..\Resources\meta_tiles.png" />
+    <Image Include="..\Resources\Projectile.png" />
+    <Image Include="..\Resources\Range.png" />
+    <Image Include="res\game.ico" />
   </ItemGroup>
 </Project>

@@ -151,6 +151,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="..\Classes\Wave.h" />
     <ClInclude Include="..\Classes\WayPoint.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\cocos2d\cocos\2d\cocos2d.vcxproj">
@@ -166,6 +167,20 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Resources\CloseNormal.png" />
+    <Image Include="..\Resources\CloseSelected.png" />
+    <Image Include="..\Resources\Enemy1.png" />
+    <Image Include="..\Resources\Enemy2.png" />
+    <Image Include="..\Resources\fps_images.png" />
+    <Image Include="..\Resources\HelloWorld.png" />
+    <Image Include="..\Resources\hud.png" />
+    <Image Include="..\Resources\MachineGunTurret.png" />
+    <Image Include="..\Resources\meta_tiles.png" />
+    <Image Include="..\Resources\Projectile.png" />
+    <Image Include="..\Resources\Range.png" />
+    <Image Include="res\game.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
