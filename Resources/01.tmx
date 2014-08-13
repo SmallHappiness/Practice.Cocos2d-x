@@ -9,13 +9,13 @@
   </data>
  </layer>
  <objectgroup name="Objects" width="27" height="20">
-  <object name="Waypoint2" x="416" y="8" width="23" height="24"/>
-  <object name="Waypoint3" x="11" y="11" width="22" height="23"/>
-  <object name="Waypoint4" x="21" y="558"/>
-  <object name="Waypoint5" x="423" y="560"/>
-  <object name="Waypoint1" x="438" y="398"/>
-  <object name="Waypoint6" x="437" y="430"/>
-  <object name="Waypoint0" x="876" y="391"/>
-  <object name="Waypoint7" x="878" y="436"/>
+  <object name="Waypoint2" x="432" y="16"/>
+  <object name="Waypoint3" x="16" y="16"/>
+  <object name="Waypoint4" x="16" y="560"/>
+  <object name="Waypoint5" x="432" y="560"/>
+  <object name="Waypoint1" x="432" y="400"/>
+  <object name="Waypoint6" x="432" y="432"/>
+  <object name="Waypoint0" x="893" y="395"/>
+  <object name="Waypoint7" x="893" y="434"/>
  </objectgroup>
 </map>

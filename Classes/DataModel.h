@@ -4,6 +4,8 @@
 #include "Creep.h"
 #include "Wave.h"
 #include "TutorialScene.h"
+#include "Tower.h"
+#include "GameHUD.h"
 
 USING_NS_CC;
 
@@ -14,6 +16,8 @@ public:
 	Vector <WayPoint*> waypoints;
 	Vector <Creep*> targets;
 	Vector <Wave*> waves;
+	Vector<Tower*> towers;
+	GameHUD* _gameHUDLayer;
 private:
 	DataModel(){};
 	static DataModel* m_pInstance;

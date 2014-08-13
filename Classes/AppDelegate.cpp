@@ -32,6 +32,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // run
     director->runWithScene(scene);
 
+	glview->setDesignResolutionSize(864, 640, kResolutionExactFit);
     return true;
 }
 
