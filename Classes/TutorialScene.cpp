@@ -1,5 +1,6 @@
 #include "TutorialScene.h"
 #include "DataModel.h"
+#include "Tower.h"
 #include <Vector>
 #include <string>
 
@@ -16,6 +17,11 @@ Scene* TutorialScene::createScene()
     // add layer as a child to scene
     scene->addChild(layer);
 
+	auto myGameHUD = GameHUD::shareHUD();
+	DataModel *m = DataModel::getModel();
+	m->_gameHUDLayer = myGameHUD;
+
+	scene->addChild(myGameHUD, 1);
     // return the scene
     return scene;
 }
@@ -161,8 +167,69 @@ Wave *TutorialScene::getNextWave(){
 
 	return wave;
 }
-void TutorialScene::menuCloseCallback(Ref* pSender)
+
+Point TutorialScene::tileCoordForPosition(Point position){
+	int x = position.x / this->_tileMap->getTileSize().width;
+	int y = ((this->_tileMap->getMapSize().height * this->_tileMap->getTileSize().height) - position.y) / this->_tileMap->getTileSize().height;
+	return ccp(x, y);
+}
+bool TutorialScene::canBuildOnTilePosition(Point pos)
 {
+	Point towerLoc = this->tileCoordForPosition(pos);
+	int tileGid = this->_background->getTileGIDAt(towerLoc);
+	Value props = this->_tileMap->getPropertiesForGID(tileGid);
+	ValueMap map = props.asValueMap();
+	int type_int;
+	if (map.size() == 0)
+	{
+		type_int = 0;
+	}
+	else
+	{
+		type_int = map.at("buildable").asInt();
+	}
+
+	if (1 == type_int)
+	{
+		return true;
+	}
+	return false;
+}
+
+
+void TutorialScene::addTower(Point pos){
+	DataModel *m = DataModel::getModel();
+
+	Tower *target = NULL;
+	Point towerLoc = this->tileCoordForPosition(pos);
+	int tileGid = this->_background->tileGIDAt(towerLoc);
+	Value props = this->_tileMap->propertiesForGID(tileGid);
+	ValueMap map = props.asValueMap();
+
+	int type_int = map.at("buildable").asInt();
+	if (1 == type_int){
+		target = MachineGunTower::tower();
+		target->setPosition(ccp((towerLoc.x * 32) + 16, this->_tileMap->getContentSize().height - (towerLoc.y * 32) - 16));
+		this->addChild(target, 1);
+		target->setTag(1);
+		m->towers.pushBack(target);
+	}
+	else{
+		log("Tile Not Buildable");
+	}
+}
+
+Point TutorialScene::boundLayerPos(Point newPos){
+	Size winSize = CCDirector::getInstance()->getWinSize();
+	Point retval = newPos;
+	retval.x = MIN(retval.x, 0);
+	retval.x = MAX(retval.x, _tileMap->getContentSize().width + winSize.width);
+	retval.y = MIN(0, retval.y);
+	retval.y = MAX(_tileMap->getContentSize().height + winSize.height, retval.y);
+	return retval;
+}
+
+void TutorialScene::menuCloseCallback(Ref* pSender){
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WP8) || (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
 	MessageBox("You pressed the close button. Windows Store Apps do not implement a close button.", "Alert");
 	return;

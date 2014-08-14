@@ -3,6 +3,7 @@
 #include "Creep.h"
 #include "WayPoint.h"
 #include "Wave.h"
+#include "GameHUD.h"
 
 class TutorialScene : public cocos2d::Layer
 {
@@ -20,6 +21,12 @@ public:
 	virtual void update(float dt);
 	Wave* getCurrentWave();
 	Wave* getNextWave();
+	void addTower(Point pos);
+	Point tileCoordForPosition(Point position);
+	bool canBuildOnTilePosition(Point pos);
+	Point boundLayerPos(Point newPos);
+	Point position;
+	GameHUD *gameHUD;
 
 	static cocos2d::Scene* createScene();
 

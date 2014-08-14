@@ -109,3 +109,25 @@ void GameHUD::onTouchMoved(Touch* touch, Event* event){
 			selSprite->setOpacity(50);
 	}
 }
+void GameHUD::onTouchEnded(Touch* touch, Event* event)
+{
+	Point touchLocation = this->convertTouchToNodeSpace(touch);
+	DataModel *m = DataModel::getModel();
+
+	if (selSprite){
+		Rect backgroundRect = Rect(background->getPositionX(),
+			background->getPositionY(),
+			background->getContentSize().width,
+			background->getContentSize().height);
+
+		if (!backgroundRect.containsPoint(touchLocation) && m->_gameLayer->canBuildOnTilePosition(touchLocation)){
+			Point touchLocationInGameLayer = m->_gameLayer->convertTouchToNodeSpace(touch);
+			m->_gameLayer->addTower(touchLocationInGameLayer);
+		}
+
+		this->removeChild(selSprite, true);
+		selSprite = NULL;
+		this->removeChild(selSpriteRange, true);
+		selSpriteRange = NULL;
+	}
+}
