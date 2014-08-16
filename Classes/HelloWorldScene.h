@@ -3,6 +3,8 @@
 
 #include "cocos2d.h"
 
+class HelloWorld;
+
 class HelloWorldHud : public cocos2d::Layer{
 public:
 	void numCollectedChanged(int numCollected);
@@ -10,6 +12,8 @@ public:
 	CREATE_FUNC(HelloWorldHud);
 
 	cocos2d::LabelTTF *label;
+	void projectileButtonTapped(cocos2d::Object *pSender);
+	CC_SYNTHESIZE(HelloWorld *, _gameLayer, GameLayer);
 };
 
 class HelloWorld : public cocos2d::Layer{
@@ -23,13 +27,22 @@ public:
     // a selector callback
 	void menuCloseCallback(cocos2d::Ref* pSender);
 	void onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *unused_event);
-    
+	void enemyMoveFinished(cocos2d::Object *pSender);
+
     // implement the "static create()" method manually
 	CREATE_FUNC(HelloWorld);
 
 	void setViewPointCenter(cocos2d::Point position);
 	void setPlayerPosition(cocos2d::Point position);
 	cocos2d::Point tileCoordForPosition(cocos2d::Point position);
+	void addEnemyAtPos(cocos2d::Point position);
+	void animateEnemy(cocos2d::Sprite *enemy); 
+	void projectileMoveFinished(cocos2d::Object *pSender);
+	void testCollisions(float dt);
+	void win();
+	void lose();
+
+	CC_SYNTHESIZE(int, _mode, Mode);
 private:
 	cocos2d::TMXTiledMap* _tileMap;
 	cocos2d::TMXLayer* _background;
@@ -38,6 +51,8 @@ private:
 	cocos2d::TMXLayer* _meta;
 	int _numCollected;
 	static HelloWorldHud* _hud;
+	cocos2d::Vector<cocos2d::Sprite *> _enemies;
+	cocos2d::Vector<cocos2d::Sprite *> _projectiles;
 };
 
 #endif // __HELLOWORLD_SCENE_H__
