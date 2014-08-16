@@ -4,7 +4,8 @@ TileGame
 Pratice for using tilemap.
 
 ## Chapter 01
-* auto關鍵字要謹慎使用，Point和cocos2d::Point不等價。
+* auto關鍵字要謹慎使用，得考慮有否USING_NS_CC;，否則Point和cocos2d::Point不等價。
+* ver2.x的Point在Ver3.x後正名為Vec2。
 * C++11支援匿名方法如
 
 `listener->onTouchBegan = [&](Touch *touch, Event *unused_event)->bool { return true; };`
@@ -23,5 +24,3 @@ Pratice for using tilemap.
 `projectile->runAction(Sequence::create(MoveTo::create(realMoveDuration, realDest), actionMoveDone, NULL));`
 
 `this->schedule(schedule_selector(HelloWorld::testCollisions));`
-
-* 回調函數CC_CALLBACK_X系列仍待熟稔差異。
