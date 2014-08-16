@@ -5,7 +5,7 @@ Pratice for using tilemap.
 
 ## Chapter 01
 * auto關鍵字要謹慎使用，得考慮有否USING_NS_CC;，否則Point和cocos2d::Point不等價。
-* ver2.x的Point在Ver3.x後正名為Vec2。
+* 座標結構：Point (Ver2.x) => Vec2 (Ver3.x)。
 * C++11支援匿名方法如
 
 `listener->onTouchBegan = [&](Touch *touch, Event *unused_event)->bool { return true; };`
