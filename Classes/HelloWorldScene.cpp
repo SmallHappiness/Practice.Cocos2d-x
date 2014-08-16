@@ -1,6 +1,10 @@
 #include "HelloWorldScene.h"
+#include "SimpleAudioEngine.h"
 
 USING_NS_CC;
+using namespace CocosDenshion;
+
+HelloWorldHud *HelloWorld::_hud = NULL;
 
 Scene* HelloWorld::createScene()
 {
@@ -8,10 +12,13 @@ Scene* HelloWorld::createScene()
     auto scene = Scene::create();
     
     // 'layer' is an autorelease object
-    auto layer = HelloWorld::create();
+	auto layer = HelloWorld::create();
+	auto hud = HelloWorldHud::create();
+	_hud = hud;
 
     // add layer as a child to scene
     scene->addChild(layer);
+	scene->addChild(hud);
 
     // return the scene
     return scene;
@@ -21,11 +28,18 @@ Scene* HelloWorld::createScene()
 bool HelloWorld::init(){
 	if (!Layer::init())
 		return false;
+	SimpleAudioEngine::getInstance()->preloadEffect("pickup.mp3");
+	SimpleAudioEngine::getInstance()->preloadEffect("hit.mp3");
+	SimpleAudioEngine::getInstance()->preloadEffect("move.mp3");
+	SimpleAudioEngine::getInstance()->playBackgroundMusic("TileMap.mp3", true);
 
 	std::string file = "TileMap.tmx";
 	auto str = String::createWithContentsOfFile(FileUtils::getInstance()->fullPathForFilename(file.c_str()).c_str());
 	_tileMap = TMXTiledMap::createWithXML(str->getCString(), "");
 	_background = _tileMap->getLayer("Background");
+	_foreground = _tileMap->getLayer("Foreground");
+	_meta = _tileMap->getLayer("Meta");
+	_meta->setVisible(false);
 
 	TMXObjectGroup *objects = _tileMap->getObjectGroup("Objects");
 	CCASSERT(NULL != objects, "'Objects' object group not found");
@@ -46,6 +60,10 @@ bool HelloWorld::init(){
 	listener->onTouchBegan = [&](Touch *touch, Event *unused_event)->bool { return true; };
 	listener->onTouchEnded = CC_CALLBACK_2(HelloWorld::onTouchEnded, this);
 	this->_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+
+	_numCollected = 0;
+
+
 	return true;
 }
 
@@ -63,6 +81,28 @@ void HelloWorld::setViewPointCenter(Point position){
 	this->setPosition(viewPoint);
 }
 void HelloWorld::setPlayerPosition(Point position){
+	Point tileCoord = this->tileCoordForPosition(position);
+	int tileGid = _meta->getTileGIDAt(tileCoord);
+	if (tileGid){
+		auto properties = _tileMap->getPropertiesForGID(tileGid).asValueMap();
+		if (!properties.empty()){
+			auto collision = properties["Collidable"].asString();
+			auto collectable = properties["Collectable"].asString();
+			if ("True" == collision){
+				SimpleAudioEngine::getInstance()->playEffect("hit.mp3");
+				return;
+			}
+			else if ("True" == collectable){
+				SimpleAudioEngine::getInstance()->playEffect("pickup.mp3");
+				_meta->removeTileAt(tileCoord);
+				_foreground->removeTileAt(tileCoord);
+
+				this->_numCollected++;
+				this->_hud->numCollectedChanged(_numCollected);
+			}
+		}
+	}
+	SimpleAudioEngine::getInstance()->playEffect("move.mp3");
 	_player->setPosition(position);
 }
 
@@ -93,6 +133,11 @@ void HelloWorld::onTouchEnded(Touch *touch, Event *unused_event){
 	this->setViewPointCenter(_player->getPosition());
 }
 
+cocos2d::Point HelloWorld::tileCoordForPosition(cocos2d::Point position){
+	int x = position.x / _tileMap->getTileSize().width;
+	int y = ((_tileMap->getMapSize().height*_tileMap->getTileSize().height) - position.y) / _tileMap->getTileSize().height;
+	return Point(x, y);
+}
 void HelloWorld::menuCloseCallback(Ref* pSender){
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WP8) || (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
 	MessageBox("You pressed the close button. Windows Store Apps do not implement a close button.","Alert");
@@ -104,4 +149,25 @@ void HelloWorld::menuCloseCallback(Ref* pSender){
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     exit(0);
 #endif
+}
+
+bool HelloWorldHud::init(){
+	if (!Layer::init())
+		return false;
+
+	auto visibleSize = Director::getInstance()->getVisibleSize();
+	label = LabelTTF::create("0", "fonts/Marker Felt.ttf", 24.0f, Size(50, 24), TextHAlignment::RIGHT);
+	label->setColor(Color3B(0, 0, 0));
+	const int MARGIN = 10;
+	label->setPosition(visibleSize.width - (label->getDimensions().width / 2) - MARGIN,
+		label->getDimensions().height / 2 + MARGIN);
+	this->addChild(label);
+
+	return true;
+}
+
+void HelloWorldHud::numCollectedChanged(int numCollected){
+	char showStr[20];
+	sprintf(showStr, "%d", numCollected);
+	label->setString(showStr);
 }
