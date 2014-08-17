@@ -22,5 +22,9 @@ public:
 	Wave* getNextWave();
 	void gameLogic(float dt);
 	void addTarget();
+	cocos2d::Point tileCoordForPosition(cocos2d::Point position);
+	bool canBuildOnTilePosition(cocos2d::Point pos);
+	void addTower(Point pos);
+	Point boundLayerPos(Point newPos);
 	CREATE_FUNC(TutorialScene);
 };

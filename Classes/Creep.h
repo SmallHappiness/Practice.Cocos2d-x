@@ -4,7 +4,7 @@
 
 USING_NS_CC;
 
-class Creep : public Sprite{
+class Creep: public Sprite{
 public:
 	int curHp;
 	int moveDuration;
@@ -19,12 +19,12 @@ public:
 	CREATE_FUNC(Creep);
 };
 
-class FastRedCreep : public Creep{
+class FastRedCreep: public Creep{
 public:
 	static Creep* creep();
 };
 
-class StrongGreenCreep : public Creep{
+class StrongGreenCreep: public Creep{
 public:
 	static Creep* creep();
 };

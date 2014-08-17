@@ -1,5 +1,6 @@
 #include "TutorialScene.h"
 #include "DataModel.h"
+#include "GameHUD.h"
 
 USING_NS_CC;
 
@@ -9,12 +10,16 @@ Scene* TutorialScene::createScene(){
 
 	// 'layer' is an autorelease object
 	auto layer = TutorialScene::create();
+	auto myGameHUD = GameHUD::shareHUD();
 
 	// add layer as a child to scene
 	scene->addChild(layer, 1);
 
+	scene->addChild(myGameHUD, 1);
+
 	DataModel* m = DataModel::getModel();
 	m->_gameLayer = layer;
+	m->_gameHUDLayer = myGameHUD;
 
 	return scene;
 }
@@ -143,4 +148,61 @@ void TutorialScene::gameLogic(float dt){
 
 void TutorialScene::update(float dt){
 
+}
+cocos2d::Point TutorialScene::tileCoordForPosition(cocos2d::Point position){
+	int x = position.x / this->tileMap->getTileSize().width;
+	int y = (this->tileMap->getMapSize().height *this->tileMap->getTileSize().height - position.y) / this->tileMap->getTileSize().height;
+	return ccp(x, y);
+}
+
+void TutorialScene::addTower(Point pos){
+	DataModel *m = DataModel::getModel();
+	Tower *target = NULL;
+	Point towerLoc = this->tileCoordForPosition(pos);
+
+	int tileGid = this->background->tileGIDAt(towerLoc);
+	Value props = this->tileMap->propertiesForGID(tileGid);
+	bool buildable = !props.isNull();
+	if (!props.isNull()){
+		ValueMap map = props.asValueMap();
+
+		int type_int = map.at("buildable").asInt();
+		if (1 == type_int){
+			target = MachineGunTower::tower();
+			target->setPosition(ccp((towerLoc.x * 32) + 16, this->tileMap->getContentSize().height - (towerLoc.y * 32) - 16));
+			this->addChild(target, 1);
+			target->setTag(1);
+			m->towers.pushBack(target);
+		}
+		else
+			buildable = false;
+	}
+	if (!buildable) log("Tile Not Buildable");
+}
+
+bool TutorialScene::canBuildOnTilePosition(Point pos){
+	Point towerLoc = this->tileCoordForPosition(pos);
+	int tileGid = this->background->getTileGIDAt(towerLoc);
+	Value props = this->tileMap->getPropertiesForGID(tileGid);
+	if (!props.isNull()){
+		ValueMap map = props.asValueMap();
+		int type_int = 0;
+		if (map.size() == 0)
+			type_int = 0;
+		else
+			type_int = map.at("buildable").asInt();
+		if (1 == type_int)
+			return true;
+	}
+	return false;
+}
+
+Point TutorialScene::boundLayerPos(Point newPos){
+	Size winSize = CCDirector::getInstance()->getWinSize();
+	Point retval = newPos;
+	retval.x = MIN(retval.x, 0);
+	retval.x = MAX(retval.x, tileMap->getContentSize().width + winSize.width);
+	retval.y = MIN(0, retval.y);
+	retval.y = MAX(tileMap->getContentSize().height + winSize.height, retval.y);
+	return retval;
 }

@@ -15,3 +15,4 @@ Wave* Wave::initWithCreep(Creep* creep, double SpawnRate, int TotalCreeps){
 
 	return this;
 }
+

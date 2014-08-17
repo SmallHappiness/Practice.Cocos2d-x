@@ -7,3 +7,4 @@ bool WayPoint::init(){
 		return false;
 	return true;
 }
+
