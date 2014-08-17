@@ -3,39 +3,24 @@
 #include "Creep.h"
 #include "WayPoint.h"
 #include "Wave.h"
-#include "GameHUD.h"
 
-class TutorialScene : public cocos2d::Layer
-{
-private:
-	cocos2d::TMXTiledMap *_tileMap;
-	cocos2d::TMXLayer *_background;
+USING_NS_CC;
+
+class TutorialScene : public Layer{
 public:
-    // there's no 'id' in cpp, so we recommend returning the class instance pointer
+	TMXTiledMap* tileMap;
+	TMXLayer* background;
 	int currentLevel;
-	void addWayPoint();
+
+	static Scene* createScene();
+	void addWaypoint();
 	void addWaves();
-	void FollowPath(Node *sender);
-	void gameLogic(float dt);
-	void addTarget();
+	virtual bool init();
 	virtual void update(float dt);
+	void FollowPath(Node* sender);
 	Wave* getCurrentWave();
 	Wave* getNextWave();
-	void addTower(Point pos);
-	Point tileCoordForPosition(Point position);
-	bool canBuildOnTilePosition(Point pos);
-	Point boundLayerPos(Point newPos);
-	Point position;
-	GameHUD *gameHUD;
-
-	static cocos2d::Scene* createScene();
-
-    // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
-    virtual bool init();  
-    
-    // a selector callback
-    void menuCloseCallback(cocos2d::Ref* pSender);
-    
-    // implement the "static create()" method manually
+	void gameLogic(float dt);
+	void addTarget();
 	CREATE_FUNC(TutorialScene);
 };

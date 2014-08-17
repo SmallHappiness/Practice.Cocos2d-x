@@ -11,6 +11,7 @@ public:
 	int curWaypoint;
 	int tag;
 	Sprite* sprite;
+	void creepLogic(float dt);
 	virtual bool init();
 	Creep* initWithCreep(Creep* copyFrom);
 	WayPoint* getNextWaypoint();
@@ -23,8 +24,7 @@ public:
 	static Creep* creep();
 };
 
-class StrongGreenCreep : public Creep
-{
+class StrongGreenCreep : public Creep{
 public:
 	static Creep* creep();
 };

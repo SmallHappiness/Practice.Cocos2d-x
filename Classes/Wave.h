@@ -4,14 +4,13 @@
 
 USING_NS_CC;
 
-class Wave :public Node{
+class Wave : public Node{
 public:
 	Point position;
 	int totalCreeps;
 	double spawnRate;
-	Creep* CreepType;
-
+	Creep* creepType;
 	virtual bool init();
-	Wave* initWithCreep(Creep* creep, double spawnRate, int TotalCreeps);
+	Wave* initWithCreep(Creep* creep, double SpawnRate, int TotalCreeps);
 	CREATE_FUNC(Wave);
 };
