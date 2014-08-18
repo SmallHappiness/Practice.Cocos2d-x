@@ -29,7 +29,7 @@ Creep* StrongGreenCreep::creep(){
 	creep->sprite = Sprite::create("Enemy2.png");
 	creep->addChild(creep->sprite, 0);
 	creep->curHp = 20;
-	creep->moveDuration = 8; 
+	creep->moveDuration = 8;
 	creep->curWaypoint = 0;
 	return creep;
 }
@@ -54,13 +54,13 @@ WayPoint* Creep::getNextWaypoint(){
 void Creep::creepLogic(float dt){
 	WayPoint* waypoint = this->getCurrentWaypoint();
 
-	Point waypointVector = waypoint->getPosition()-this->getPosition();
+	Point waypointVector = waypoint->getPosition() - this->getPosition();
 	float waypointAngle = ccpToAngle(waypointVector);
 	float cocosAngle = CC_RADIANS_TO_DEGREES(-1 * waypointAngle);
 
 	float rotateSpeed = 0.5 / M_PI;
 	float rotateDuration = fabs(waypointAngle * rotateSpeed);
 
-	this->runAction(Sequence::create(RotateTo::create(rotateDuration,cocosAngle),NULL));
+	this->runAction(Sequence::create(RotateTo::create(rotateDuration, cocosAngle), NULL));
 }
 

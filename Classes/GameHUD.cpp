@@ -1,5 +1,6 @@
 #include "GameHUD.h"
 #include "DataModel.h"
+#include "TutorialScene.h"
 
 USING_NS_CC;
 
@@ -58,7 +59,6 @@ void GameHUD::onEnter(){
 
 	dispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 	//dispatcher->addEventListenerWithFixedPriority(listener, 0);
-
 }
 
 bool GameHUD::onTouchBegan(Touch *touch, Event *event){

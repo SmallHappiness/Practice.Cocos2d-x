@@ -1,4 +1,4 @@
-#pragma  once
+#pragma once
 #include "cocos2d.h"
 #include "Creep.h"
 
@@ -11,6 +11,6 @@ public:
 	double spawnRate;
 	Creep* creepType;
 	virtual bool init();
-	Wave* initWithCreep(Creep* creep, double SpawnRate,int TotalCreeps);
+	Wave* initWithCreep(Creep* creep, double SpawnRate, int TotalCreeps);
 	CREATE_FUNC(Wave);
 };

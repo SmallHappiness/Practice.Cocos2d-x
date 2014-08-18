@@ -130,7 +130,7 @@ void TutorialScene::addTarget(){
 	auto actionMove = CCMoveTo::create(moveDuration, waypoint->getPosition());
 	auto actionMoveDone = CallFuncN::create(this, callfuncN_selector(TutorialScene::FollowPath));
 	target->runAction(CCSequence::create(actionMove, actionMoveDone, NULL));
-	target->tag = 1;
+	target->setTag(1);
 	m->targets.pushBack(target);
 }
 
@@ -147,8 +147,47 @@ void TutorialScene::gameLogic(float dt){
 }
 
 void TutorialScene::update(float dt){
+	DataModel *m = DataModel::getModel();
+	Vector <Projectile*> projectilesToDelete;
 
+	for each(Projectile *projectile in m->projectiles){
+		Rect projectileRect = Rect(projectile->getPositionX() - (projectile->getContentSize().width / 2),
+			projectile->getPositionY() - (projectile->getContentSize().height / 2),
+			projectile->getContentSize().width,
+			projectile->getContentSize().height);
+
+		Vector <Creep*> targetsToDelete;
+
+		for each(Creep *target in m->targets){
+			Rect targetRect = Rect(target->getPositionX() - (target->sprite->getContentSize().width / 2),
+				target->getPositionY() - (target->sprite->getContentSize().height / 2),
+				target->sprite->getContentSize().width,
+				target->sprite->getContentSize().height);
+
+			if (projectileRect.intersectsRect(targetRect)){
+				projectilesToDelete.pushBack(projectile);
+
+				Creep *creep = target;
+				creep->curHp -= 1;
+
+				if (creep->curHp <= 0)
+					targetsToDelete.pushBack(creep);
+				break;
+			}
+		}
+
+		for each(Creep *target in targetsToDelete){
+			m->targets.eraseObject(target);
+			this->removeChild(target, true);
+		}
+	}
+
+	for each(Projectile *projectile in projectilesToDelete){
+		m->projectiles.eraseObject(projectile);
+		this->removeChild(projectile, true);
+	}
 }
+
 cocos2d::Point TutorialScene::tileCoordForPosition(cocos2d::Point position){
 	int x = position.x / this->tileMap->getTileSize().width;
 	int y = (this->tileMap->getMapSize().height *this->tileMap->getTileSize().height - position.y) / this->tileMap->getTileSize().height;
@@ -170,6 +209,7 @@ void TutorialScene::addTower(Point pos){
 		if (1 == type_int){
 			target = MachineGunTower::tower();
 			target->setPosition(ccp((towerLoc.x * 32) + 16, this->tileMap->getContentSize().height - (towerLoc.y * 32) - 16));
+			target->coord = towerLoc;
 			this->addChild(target, 1);
 			target->setTag(1);
 			m->towers.pushBack(target);
@@ -183,6 +223,12 @@ void TutorialScene::addTower(Point pos){
 bool TutorialScene::canBuildOnTilePosition(Point pos){
 	Point towerLoc = this->tileCoordForPosition(pos);
 	int tileGid = this->background->getTileGIDAt(towerLoc);
+	DataModel* m = DataModel::getModel();
+
+	for each(Tower *tower in m->towers){
+		if (tower->coord == towerLoc)
+			return false;
+	}
 	Value props = this->tileMap->getPropertiesForGID(tileGid);
 	if (!props.isNull()){
 		ValueMap map = props.asValueMap();
@@ -194,6 +240,7 @@ bool TutorialScene::canBuildOnTilePosition(Point pos){
 		if (1 == type_int)
 			return true;
 	}
+
 	return false;
 }
 
