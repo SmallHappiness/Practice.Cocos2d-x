@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-Cocos2d-x-P-
-============
-
-Project set for practicing record
-=======
 TileGame
 ========
 
@@ -30,4 +24,3 @@ Pratice for using tilemap.
 `projectile->runAction(Sequence::create(MoveTo::create(realMoveDuration, realDest), actionMoveDone, NULL));`
 
 `this->schedule(schedule_selector(HelloWorld::testCollisions));`
->>>>>>> 31df3530da170d44b9349d47d97d7cd40c9c5a24
