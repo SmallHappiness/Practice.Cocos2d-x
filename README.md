@@ -1,4 +1,4 @@
-AirHockey
-=========
+Cocos2d-x-P-
+============
 
-Maybe used in iOS....
+Project set for practicing record
