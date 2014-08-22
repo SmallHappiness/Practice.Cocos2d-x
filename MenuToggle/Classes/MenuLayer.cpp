@@ -4,7 +4,7 @@
 USING_NS_CC;
 
 bool MenuLayer::init(){
-	if (!Layer::init())
+	if (!BaseLayer::init())
 		return false;
 
 	float delayTime = 0.3f;
@@ -19,8 +19,10 @@ bool MenuLayer::init(){
 	Label *titleCenterTop = Label::createWithTTF(config_font52, "How to build a...");
 	Label *titleCenterBottom = Label::createWithTTF(config_font96, "Part 1");
 
-	MenuItemFont *startNew = MenuItemFont::create("New Game", CC_CALLBACK_1(MenuLayer::onNewGame, this));
-	MenuItemFont *credits = MenuItemFont::create("Credits", CC_CALLBACK_1(MenuLayer::onCredits, this));
+	//MenuItemFont *startNew = MenuItemFont::create("New Game", CC_CALLBACK_1(MenuLayer::onNewGame, this));
+	//MenuItemFont *credits = MenuItemFont::create("Credits", CC_CALLBACK_1(MenuLayer::onCredits, this));
+	MenuItemImage *startNew = MenuItemImage::create("newGameBtn.png", "newGameBtn_over.png", CC_CALLBACK_1(MenuLayer::onNewGame, this));
+	MenuItemImage *credits = MenuItemImage::create("creditsBtn.png", "creditsBtn_over.png", CC_CALLBACK_1(MenuLayer::onCredits, this));
 
 	Menu *menu = Menu::create(startNew, credits, NULL);
 

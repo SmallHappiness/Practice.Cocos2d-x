@@ -10,7 +10,7 @@ PlayLayer::~PlayLayer(){
 }
 
 bool PlayLayer::init(){
-	if (!Layer::init())
+	if (!BaseLayer::init())
 		return false;
 
 	Size visibleSize = Director::getInstance()->getVisibleSize();

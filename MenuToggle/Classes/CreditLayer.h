@@ -1,10 +1,11 @@
 #pragma once
 #include "cocos2d.h"
 #include "SceneManager.h"
+#include "BaseLayer.h"
 
 USING_NS_CC;
 
-class CreditLayer :public Layer{
+class CreditLayer :public BaseLayer{
 public:
 	CreditLayer();
 	~CreditLayer();
